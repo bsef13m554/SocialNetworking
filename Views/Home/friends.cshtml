@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "friends";
+}
+
+<script src="~/Scripts/js/jquery-2.1.3.js"></script>
+<script>
+
+        $(document).ready(function () {
+
+            $('#b2').hide();
+            var user;
+            $('#b1').click(function () {
+
+                var userMail = $('#email').val();
+
+
+                $.getJSON("/Home/searchUser?email=" +userMail  , function (data)
+                {
+
+                    if (data == false) {
+                        $('#question').text("Not Found");
+                    }
+                    else {
+                        $('#question').text("Found");
+                        user = userMail;
+                        $('#b2').show();
+                    }
+                });
+
+            });
+
+            $('#b2').click(function () {
+
+                var userMail = '@Session["email"]';
+                $.getJSON("/Home/addFriend?email=" + userMail+"&friend="+user, function (data) {
+
+                    if (data == false) {
+                        $('#result1').text("Not Found");
+                    }
+                    else {
+                        $('#result1').text("You have added your friend");
+                       
+                        $('#b2').hide();
+                    }
+                });
+
+            });
+
+        });
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        var userMail = '@Session["email"]';
+        $.getJSON("/Home/friendList?email=" + userMail, function (data) {
+            if (data != null) {
+                $.each(data, function (i, item) {
+                    $('#result3').append('<p style="color:blue, size=:20px;text-transform:capitalize"><b>'+item+'</b></p>');
+                });
+            }
+        });
+         });
+</script>
+
+<body>
+    <div class="main">
+        <div class="main_resize">
+
+            <div class="content">
+                <div class="content_bg">
+                    <div class="mainbar"><br>
+                        <h2>Search Firends</h2>
+                         
+                            <div><input type="text" placeholder="Enter email" id="email" /><p>Search by email</p></div>
+                           
+                            <input id="b1" type="button" value="Search"/>
+                            <br>
+                            <div id="question"></div>
+                            <br>
+                            <input id="b2" type="button" value="Add Friend" />
+                            <br>
+                            <div id="result1"></div>
+                         
+                        <h2>Friend List</h2>
+                        <div id="result3"></div>
+                        <div class="clr"></div>
+                    
+                </div>
+            </div>
+
+        </div>
+    </div>
+        </div>
+    <div class="footer">
+
+    </div>
+
+</body>
+
+

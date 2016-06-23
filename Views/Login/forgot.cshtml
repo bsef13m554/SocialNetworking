@@ -1,0 +1,79 @@
+﻿@model Social_Networking_EAD.Models.userTable
+@{
+    Layout = null;
+    ViewBag.Title = "Forgot";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sign-Up/Login Form</title>
+    <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+
+    
+    <script src="~/Scripts/js/jquery-2.1.3.js"></script>
+
+</head>
+<body>
+<script>
+
+        $(document).ready(function () {
+            
+            $('#b1').click(function () {
+                var userMail = $('#email').val();                
+                $.getJSON("/Login/checkUser?email=" +userMail  , function (data)
+                {                  
+                    if (data == false) {
+                        $('#quest').text("User doesn't exist");
+                    }
+                    else {
+                        $('#quest').text(data + "?");
+                    }
+                });
+
+            });
+
+        });
+</script>
+<script>
+
+        $(document).ready(function () {
+
+            $('#getPass').click(function () {
+
+                var email = $('#email').val();
+                var answer = $('#answer').val();
+                $.getJSON("/Login/getPass?email=" + email+ "&answer="+answer, function (data)
+                {
+                    if(data != "Invalid Answer")
+                        $('#pass').text("Your Password is: " + data);
+                    else
+                        $('#pass').text("Invalid Answer");
+                });
+
+            });
+
+        });
+</script>
+@using (Html.BeginForm("ForgotPassword", "Home", FormMethod.Post))
+{
+    <div style="width:350px; color:black;">
+        <h1>Forgot Password ? </h1>
+        @Html.TextBoxFor(Model => Model.email, new { @Placeholder = "Email",  @autocomplete = "off" , @id="email"})
+        @Html.ValidationMessageFor(Model => Model.email)
+        <input type="button" id="b1" value="check" />
+
+        <br><br>
+        <div id="quest"></div>
+        <br>
+        @Html.TextBoxFor(Model => Model.answer, new { @placeholder = "Answer", @autocomplete = "off" ,@id="answer"})
+        @Html.ValidationMessageFor(Model => Model.answer)
+        <br><br>
+        <div id="pass"></div>
+        
+            <input type="button"  value="Get Password" id="getPass" />
+    </div>
+}
+</body>
+</html>

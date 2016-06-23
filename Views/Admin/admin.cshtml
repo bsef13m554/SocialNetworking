@@ -1,0 +1,88 @@
+﻿
+@{
+    Layout = null;
+    ViewBag.Title = "admin";
+}
+<script src="~/Scripts/js/jquery-2.1.3.js"></script>
+<script>
+    $(document).ready(function() {
+        var email;
+        $('#confirm').hide();
+        $('#b1').click(function () {
+            var userMail = $('#email').val();
+
+            $.getJSON("/Admin/delete?email=" + userMail, function (data) {
+                if (data) {
+                    $('#confirm').show();
+                    email = userMail;
+                }
+                else {
+                    $('#result').text("No such user found!");
+
+                }
+            });
+           
+        });
+        $('#confirm').click(function () {
+            $.getJSON("/Admin/confirmDelete?email=" + email, function (data) {
+                if (data) {
+                    $('#email').val("");
+                    $('#result').text("User has successfully deleted!");
+                    $('#confirm').hide();
+                }
+            });
+        });
+    });
+</script>
+
+
+<body>
+    <div class="main">
+        <div class="main_resize">
+
+            <div class="content">
+                <div class="content_bg">
+                    <div class="mainbar">
+
+                        
+                        <h2>Admin Panel</h2>
+                       
+                        <div>
+                         <input type="text" placeholder="Enter email"  id="email" />
+
+                        <input id ="b1"type="button" value ="Delete user"style="background-color:#78bbe6;color:white;padding:10px;width:100px;border-radius:10px;"/>
+                        @*<input type="text" placeholder="User name" name="s" id="s" />
+                        <input type="text" name="PostId" style="width:80px;margin-top:4px" placeholder="post id" />
+
+                        <button style="background-color:#78bbe6;color:white;padding:10px;width:100px;border-radius:10px;">Delete Post</button>
+                         <br><br>*@
+                        <div id="result"></div>
+                         <input type="button" value="DELETE this user?"  id="confirm" style="background-color:#78bbe6;color:white;padding:10px;width:150px;border-radius:10px;" />
+                         <div class="clr"></div>
+                         </div>  
+                        @*
+                        <br><br>  
+                        <div style="background-color:white; border-radius:10px;margin-right:20px">
+                            <div style="background-color:white;margin-left:-15px;padding:15px;">
+                                <p style="font-size:16px"><b>Atique Nazar</b> &nbsprequested for a review</p>
+                                <p style="padding:15px;background-color:white;font-size:16px; color:black">I am a Game Developer and I love it! </p>
+                                <div>
+                                    <button style="background-color:#78bbe6;color:white;padding:10px;width:100px;border-radius:10px;">View</button>
+                                    <button style="background-color:#78bbe6;color:white;padding:10px;width:100px;border-radius:10px;">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                            *@
+                        <div class="clr"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</body>
+
+
+
