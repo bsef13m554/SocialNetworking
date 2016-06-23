@@ -132,7 +132,7 @@
                     <div class="field-wrap">
                       
                         @Html.Label("password", new { @class = "req", span = "*" })
-                        @Html.TextBoxFor(Model => Model.password, new { @autocomplete = "off" })
+                        @Html.PasswordFor(Model => Model.password, new { @autocomplete = "off" })
                         @Html.ValidationMessageFor(Model => Model.password, String.Empty, new { @style = "color:white;" })
                     </div>
                    
